@@ -40,6 +40,7 @@ model Product {
   price String
   description String
   banner String
+  codebar String
   created_at DateTime? @default(now())
   updated_at DateTime? @default(now())
 
