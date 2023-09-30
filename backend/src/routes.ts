@@ -1,14 +1,14 @@
 import {Router, Request, Response} from 'express'
 import multer from 'multer';
 
+{/* CONTROLLERS */}
 import { CreateUserController } from './controllers/user/CreateUserController'
 import { AuthUserController } from './controllers/user/AuthUserController';
 import { DetailUserController } from './controllers/user/DetailUserController';
-
-{/* CONTROLLERS */}
 import { CreateCategoryController } from './controllers/Category/CreateCategoryController';
 import { ListCategoryController } from './controllers/Category/ListCategoryController';
 import { CreateProductController } from './controllers/product/CreateProductController';
+import { ListByCategoryController  } from './controllers/product/ListByCategoryController';
 
 import { isAuthenticated } from './middlewares/isAuthenticated';
 
@@ -36,5 +36,7 @@ router.get('/category/all', isAuthenticated, new ListCategoryController().handle
 {/* PRODUCTS */}
 // cadastro de produto
 router.post('/product', isAuthenticated, upload.single('file'), new CreateProductController().handle)
+// listar produtos por categoria
+router.get('/category/product', isAuthenticated, new ListByCategoryController().handle)
 
 export { router };
