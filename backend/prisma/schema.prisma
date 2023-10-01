@@ -57,7 +57,6 @@ model Order {
   status Boolean @default(false)
   draft Boolean @default(true)
   name String?
-
   created_at DateTime? @default(now())
   updated_at DateTime? @default(now())
 
@@ -68,7 +67,6 @@ model Order {
 model Item {
   id String @id @default(uuid())
   amount Int
-
   created_at DateTime? @default(now())
   updated_at DateTime? @default(now())
 
@@ -78,5 +76,4 @@ model Item {
   @@map("itens")
   order_id String
   product_id String
-  
 }
