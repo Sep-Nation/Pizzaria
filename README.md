@@ -20,11 +20,9 @@ As funcionalidades ja aplicadas ao nivel de backend.
 
 [x] - Adicionar itens a uma mesa e também poder retirar os itens.
 
-[]  - Enviar (order) retirar de rascunho.
+[x]  - Enviar (order) retirar de rascunho.
 
-[]  - Listar todos pedidos que não estão em rascunho (draft).
+[x]  - Listar todos pedidos que não estão em rascunho (draft).
 
-[]  - Poder acessar todos detalhes de uma mesa com pedidos dela.
+[x]  - Poder acessar todos detalhes de uma mesa com pedidos dela.
 
-[]  - Concluir o pedido.
->>>>>>> 1b9efb8a8af1f55c4f1f576e40d08d1509644a12
