@@ -10,6 +10,9 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 app.use(router);
+app.use(cors({
+  origin: '*'
+}))
 
 // rota estática para acessar imagens
 app.use(
@@ -33,4 +36,4 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
 
 
 
-app.listen(3333, () => console.log('Servidor Online!!'))
+app.listen(3333, '0.0.0.0')

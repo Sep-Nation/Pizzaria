@@ -9,6 +9,7 @@ import { Input } from "../components/ui/Input/index"
 import { Button } from "../components/ui/Button"
 
 import { AuthContext } from '../contexts/AuthContext'
+import { toast } from 'react-toastify'
 
 import Link from "next/link"
 
@@ -24,7 +25,7 @@ export default function Home() {
 
     // Evitar que o user envie um dado vazio no email e senha
     if(email === '' || password === ''){
-      alert('PREENCHA OS DADOS')
+      toast.warn('Preencha todos os dados!')
       return;
     }
 
