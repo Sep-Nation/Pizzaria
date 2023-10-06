@@ -79,7 +79,7 @@ export default function Signup() {
               cadastrar
             </Button>
           </form>
-          <Link legacyBehavior href="/#"><a className={styles.text}>Já possui uma conta? Faça o login</a></Link>
+          <Link legacyBehavior href="/"><a className={styles.text}>Já possui uma conta? Faça o login</a></Link>
         </div>
       </div>
     </>
