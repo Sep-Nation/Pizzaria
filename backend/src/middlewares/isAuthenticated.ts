@@ -1,5 +1,6 @@
 import { Response, Request, NextFunction } from "express";
 import { verify } from 'jsonwebtoken'
+import { AuthTokenError } from "../server";
 
 interface PayLoad{
   sub: string;
@@ -16,7 +17,7 @@ export function isAuthenticated(
   const authToken = req.headers.authorization;
 
   if(!authToken) {
-    return res.status(401).end();
+    throw new AuthTokenError();
   }
 
   const [, token] = authToken.split(" ");
@@ -34,6 +35,6 @@ export function isAuthenticated(
   return next();
 
   }catch(err) {
-    return res.status(401).end();
+    throw new AuthTokenError();
   }
 }

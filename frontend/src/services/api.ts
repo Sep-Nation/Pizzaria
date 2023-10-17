@@ -25,6 +25,8 @@ export function setupAPIClient(ctx = undefined) {
       } else {
         return Promise.reject(new AuthTokenError())
       }
+
+      console.log(error)
     }
 
     return Promise.reject(error);

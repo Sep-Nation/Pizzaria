@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useState, useEffect } from "react";
+import { createContext, ReactNode, useState, useEffect, useContext } from "react";
 
 import { api } from "../services/apiClient";
 
@@ -41,6 +41,8 @@ export const AuthContext = createContext({} as AuthContextData)
 export function signOut(){
   try{
     destroyCookie(undefined, '@nextauth.token')
+    toast.success('Usuario deslogado')
+
     Router.push('/')
   }catch{
     console.log('erro ao deslogar')
