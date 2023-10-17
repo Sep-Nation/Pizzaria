@@ -5,12 +5,30 @@ import { canSSRAuth } from "@/src/utils/canSSRAuth";
 import { Header } from "@/src/components/Header";
 
 import { FiUpload } from "react-icons/fi";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
+import { setupAPIClient } from "@/src/services/api";
+import { toast } from "react-toastify";
 
-export default function Product() {
+type ItemProps = {
+  id: string;
+  name: string;
+}
+
+interface CategoryProps {
+  categoryList: ItemProps[];
+}
+
+export default function Product({ categoryList }: CategoryProps) {
+
+  const [name, setName] = useState('');
+  const [price, setPrice] = useState('');
+  const [description, setDescription] = useState('');
 
   const [avatarUrl, setAvatarUrl] = useState('');
   const [imageAvatar, setImageAvatar] = useState(null);
+
+  const [categories, setCategories] = useState(categoryList || [])
+  const [categorySelected, setCategorySelected] = useState(0)
 
   function handleFile(event: ChangeEvent<HTMLInputElement>){
 
@@ -30,6 +48,48 @@ export default function Product() {
     }
   }
 
+  // Função para tratar seleção de nova categoria na lista de categorias
+  function handleChangeCategory(event){
+
+    // Passando a posição da categoria selecionada para onde foi clicado
+    setCategorySelected(event.target.value)
+  }
+
+  async function handleRegister(event: FormEvent){
+    event.preventDefault();
+
+    try{
+      const data = new FormData();
+
+      if(name === '' || price === '' || description === '' || imageAvatar === null){
+        toast.error("Preencha todos os campos!");
+        return;
+      }
+
+      data.append('name', name);
+      data.append('price', price);
+      data.append('description', description);
+      data.append('category_id', categories[categorySelected].id);
+      data.append('file', imageAvatar);
+
+      const apiClient = setupAPIClient();
+
+      await apiClient.post('/product', data);
+
+      toast.success('Cadastrado com sucesso!')
+
+    }catch(err){
+      console.log(err);
+      toast.error("Ops erro ao cadastrar!")
+    }
+
+    setName('');
+    setPrice('');
+    setDescription('');
+    setImageAvatar(null);
+    setAvatarUrl('');
+  }
+
   return (
     <>
       <Head>
@@ -41,7 +101,7 @@ export default function Product() {
         <main className={styles.container}>
           <h1>Novo produto</h1>
 
-          <form className={styles.form}>
+          <form className={styles.form} onSubmit={handleRegister}>
 
             <label className={styles.labelAvatar}>
               <span>
@@ -62,13 +122,14 @@ export default function Product() {
 
             </label>
 
-            <select>
-              <option>
-                bebida
-              </option>
-              <option>
-                Pizzas
-              </option>
+            <select value={categorySelected} onChange={handleChangeCategory}>
+                {categories.map((item, index) =>{
+                  return(
+                    <option key={item.id} value={index}>
+                      {item.name}
+                    </option>
+                  )
+                })}
             </select>
 
 
@@ -76,16 +137,22 @@ export default function Product() {
               type="text"
               placeholder="Digite o nome do produto"
               className={styles.input}
+              value={name}
+              onChange={(event) => setName(event.target.value)}
             />
             <input
               type="text"
               placeholder="Preço do produto"
               className={styles.input}
+              value={price}
+              onChange={(event) => setPrice(event.target.value)}
             />
 
             <textarea
               placeholder="Descreve seu produto..."
               className={styles.input}
+              value={description}
+              onChange={(event) => setDescription(event.target.value)}
             />
 
             <button className={styles.buttonAdd} type="submit">
@@ -101,8 +168,13 @@ export default function Product() {
 }
 
 export const getServerSideProps = canSSRAuth(async (ctx) => {
+  const apiClient = setupAPIClient(ctx)
+
+  const response = await apiClient.get('/category/all');
 
   return {
-    props: {}
+    props: {
+      categoryList: response.data
+    }
   }
 })
