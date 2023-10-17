@@ -1,0 +1,10 @@
+Program : Suporte Snews
+Date : 10/09/2023
+Page : 01
+Type : ABER
+Slug : TESTE
+
+Heading : 00:03
+[flowicssnews] 00:03
+TESTE TESTE TESTE TESTE TESTE TESTE TESTE VV
+

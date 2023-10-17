@@ -1,6 +1,7 @@
 import { prismaClient } from "../../prisma";
 import { compare } from "bcryptjs";
 import { sign } from 'jsonwebtoken'
+import { AuthInvalid } from "../../server";
 
 interface AuthRequest{
   email: string;
@@ -21,7 +22,7 @@ class AuthUserService {
 
     // caso o email esteja incorreto
     if(!user){
-      throw new Error("User/password incorrect")
+      throw new AuthInvalid()
     }
 
     // verifica se a senha esta correta com o email enviado
@@ -29,7 +30,7 @@ class AuthUserService {
 
     // caso a senha nao coincida
     if(!passwordMatch){
-      throw new Error("User/password incorrect")
+      throw new AuthInvalid()
     }
 
     // se deu tudo certo gera um token para o usuário
